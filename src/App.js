@@ -6,7 +6,7 @@ const App = () => {
     <>
       <div className="bg-slate-800 min-h-screen">
         <NavBar />
-        <div class="container max-w-screen-sm mx-auto p-2">
+        <div className="container max-w-screen-sm mx-auto p-2">
             <Category/>
         </div>
       </div>
