@@ -1,4 +1,17 @@
+import { useState } from "react";
+
 const ProductsForm = ({ categories }) => {
+  const [productsFormData, setProductsFormData] = useState({
+    title: "",
+    quantity: 0,
+    categoryId: "",
+  });
+
+  const changeHandler = (e) => {
+    const { name, value } = e.target;
+    setProductsFormData({ ...productsFormData, [name]: value });
+  };
+
   return (
     <div className="mb-4">
       <h2 className="text-xl text-slate-300 font-bold mb-2">Add new product</h2>
@@ -9,9 +22,11 @@ const ProductsForm = ({ categories }) => {
           </label>
           <input
             type="text"
-            name="product-title"
+            name="title"
+            value={productsFormData.title}
             id="product-title"
             className="bg-transparent rounded-xl border border-slate-500 text-slate-400"
+            onChange={changeHandler}
           />
         </div>
         <div>
@@ -23,9 +38,11 @@ const ProductsForm = ({ categories }) => {
           </label>
           <input
             type="number"
-            name="product-quantity"
+            name="quantity"
+            value={productsFormData.quantity}
             id="product-quantity"
             className="bg-transparent rounded-xl border border-slate-500 text-slate-400"
+            onChange={changeHandler}
           />
         </div>
         <div>
@@ -36,9 +53,11 @@ const ProductsForm = ({ categories }) => {
             Category
           </label>
           <select
-            name="product-category"
+            name="categoryId"
+            value={productsFormData.categoryId}
             id="product-category"
             className="bg-transparent text-slate-400 rounded-xl w-full"
+            onChange={changeHandler}
           >
             <option className="bg-slate-300 text-slate-400" value="" disabled>
               Select a Category
@@ -47,7 +66,7 @@ const ProductsForm = ({ categories }) => {
               return (
                 <option
                   className="bg-slate-300 text-slate-400"
-                  value=""
+                  value={category.id}
                   key={category.id}
                 >
                   {category.title}
