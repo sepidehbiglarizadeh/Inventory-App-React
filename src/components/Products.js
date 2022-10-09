@@ -1,15 +1,29 @@
 import { useState } from "react";
 
-const ProductsForm = ({ categories }) => {
+const ProductsForm = ({ categories,setProducts }) => {
   const [productsFormData, setProductsFormData] = useState({
     title: "",
     quantity: 0,
     categoryId: "",
   });
 
+
   const changeHandler = (e) => {
     const { name, value } = e.target;
     setProductsFormData({ ...productsFormData, [name]: value });
+  };
+
+  const addNewProductHandler = (e) => {
+    e.preventDefault();
+    setProducts((prevState) => [
+      ...prevState,
+      {
+        ...productsFormData,
+        createdAt: new Date().toISOString(),
+        id: new Date().getTime(),
+      },
+    ]);
+    setProductsFormData({ title: "", quantity: 0, categoryId: "" });
   };
 
   return (
@@ -79,6 +93,7 @@ const ProductsForm = ({ categories }) => {
           <button
             id="add-new-product"
             className="flex-1 bg-slate-500 text-slate-200 rounded-xl p-2"
+            onClick={addNewProductHandler}
           >
             Add New Product
           </button>
