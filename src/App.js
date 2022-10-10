@@ -11,13 +11,15 @@ const App = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [sort, setSort] = useState("latest");
   const [searchValue, setSearchValue] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   useEffect(() => {
     let result = products;
     result = filterSearchTitle(result);
+    result = filterSelectedCategory(result);
     result = sortDate(result);
     setFilteredProducts(result);
-  }, [products, sort, searchValue]);
+  }, [products, sort, searchValue, selectedCategory]);
 
   useEffect(() => {
     const savedProducts = JSON.parse(localStorage.getItem("products")) || [];
@@ -52,6 +54,10 @@ const App = () => {
     setSort(e.target.value);
   };
 
+  const selectedCategoryHandler = (e) => {
+    setSelectedCategory(e.target.value);
+  };
+
   const filterSearchTitle = (array) => {
     return array.filter((p) => p.title.toLowerCase().includes(searchValue));
   };
@@ -67,10 +73,15 @@ const App = () => {
     });
   };
 
+  const filterSelectedCategory = (array) => {
+    if (!selectedCategory) return array;
+    return array.filter((item) => item.categoryId === selectedCategory);
+  };
+
   return (
     <>
       <div className="bg-slate-800 min-h-screen">
-        <NavBar />
+        <NavBar products={products} />
         <div className="container max-w-screen-sm mx-auto p-2">
           <CategoryForm setCategories={setCategories} />
           <ProductsForm categories={categories} setProducts={setProducts} />
@@ -79,6 +90,9 @@ const App = () => {
             onSort={sortHandler}
             searchValue={searchValue}
             onSearch={searchHandler}
+            categories={categories}
+            selectedCategory={selectedCategory}
+            onSelectedCategory={selectedCategoryHandler}
           />
           <ProductList
             products={filteredProducts}
