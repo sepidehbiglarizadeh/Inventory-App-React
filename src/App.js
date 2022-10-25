@@ -44,6 +44,7 @@ const App = () => {
   const deleteProductHandler = (productId) => {
     const filteredProducts = products.filter((p) => p.id !== productId);
     setProducts(filteredProducts);
+    localStorage.removeItem("products");
   };
 
   const searchHandler = (e) => {
